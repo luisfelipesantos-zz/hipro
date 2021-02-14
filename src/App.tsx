@@ -1,25 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { JobApplicationList } from './components/JobApplicationList';
+import { JobForm } from './components/JobForm';
 
-function App() {
+const jobs: JobApplication[] = [
+  {
+    company: "Rhaimes", role: "Dev Full-stack", status: "Hired"
+  },  
+  {
+    company: "Google", role: "Software Engineer", status: "Applied"
+  }
+]; 
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <JobForm /><hr/>
+      <JobApplicationList jobs={jobs} />
+    </>
   );
 }
 
