@@ -1,6 +1,8 @@
 import React from 'react';
 import { JobApplicationList } from './components/JobApplicationList';
 import { JobForm } from './components/JobForm';
+import { GlobalStyle } from './globalStyles';
+import logo from './assets/logo.png';
 
 const jobs: JobApplication[] = [
   {
@@ -14,7 +16,9 @@ const jobs: JobApplication[] = [
 const App: React.FC = () => {
   return (
     <>
-      <JobForm /><hr/>
+      <GlobalStyle />
+      <img src={logo}/>
+      <JobForm /><hr/> 
       <JobApplicationList jobs={jobs} />
     </>
   );
