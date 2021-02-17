@@ -7,3 +7,7 @@ interface JobApplication {
 interface JobApplicationProps {
   job: JobApplication;
 }
+
+interface Props {
+    jobs: JobApplication[]
+}

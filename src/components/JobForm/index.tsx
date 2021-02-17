@@ -19,11 +19,11 @@ export const JobForm: React.FC = () => {
             <InputContainer>
                 <Label><b>Status:</b></Label>
                 <Select  name="status" id="">
-                    <option value="applied">Applied</option>
-                    <option value="interview">Interview</option>
-                    <option value="practice interview">Practice Interview</option>
-                    <option value="job offer">Job Offer</option>
-                    <option value="hired">Hired</option>
+                    <option value="Applied">Applied</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Practice Interview">Practice Interview</option>
+                    <option value="Job Offer">Job Offer</option>
+                    <option value="Hired">Hired</option>
                 </Select>
             </InputContainer>
             <Button>Add</Button>

@@ -17,7 +17,7 @@ const App: React.FC = () => {
   return (
     <>
       <GlobalStyle />
-      <img src={logo}/>
+      <img src={logo} alt="HiPro logo"/>
       <JobForm /><hr/> 
       <JobApplicationList jobs={jobs} />
     </>

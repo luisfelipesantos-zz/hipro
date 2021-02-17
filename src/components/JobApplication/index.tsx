@@ -1,14 +1,16 @@
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Container, ButtonDiv, Button, JobInfo, Label } from "./styles";
+import { Container, ButtonDiv, Button, JobInfo, Label, Status } from "./styles";
+
 
 export const JobApplication: React.FC<JobApplicationProps> = ({ job }) => {
     return (
         <Container>
             <JobInfo>
-                <Label>Company: </Label> {job.company} 
-                <Label>Role: </Label> {job.role} 
-                <Label>Status: </Label> {job.status} 
+                <Label><b>Company:</b> {job.company} </Label> 
+                <Label><b>Role:</b> {job.role} </Label> 
+                <hr/>
+                <Status status={job.status}><b>Status:</b> {job.status} </Status> 
             </JobInfo>
             
             <ButtonDiv>  
