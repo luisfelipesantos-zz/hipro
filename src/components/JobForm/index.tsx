@@ -1,32 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Title, InputContainer, Button, Input, Select, Label } from "./styles";
 
-export const JobForm: React.FC = () => {
+interface Props {
+    addJobApplication: AddJobApplication;
+}
+
+export const JobForm: React.FC<Props> = ({addJobApplication}) => {
+
+    const [company, setCompany] = useState("");
+    const [role, setRole] = useState("");
+    const [status, setStatus] = useState("Applied");
+
     return (
         <Form>
             <Title>Add a job application</Title>
 
             <InputContainer>
                 <Label><b>Company:</b></Label>
-                <Input type="text"/>
+                <Input type="text" value={company} onChange={e => setCompany(e.target.value)}/>
             </InputContainer>      
 
             <InputContainer>
                 <Label><b>Role:</b></Label>
-                <Input type="text"/>
+                <Input type="text" value={role} onChange={e => setRole(e.target.value)}/>
             </InputContainer>   
             
             <InputContainer>
                 <Label><b>Status:</b></Label>
-                <Select  name="status" id="">
-                    <option value="Applied">Applied</option>
+                <Select onChange={e => setStatus(e.target.value)} name="status" id="">
+                    <option value="Applied" selected>Applied</option>
                     <option value="Interview">Interview</option>
                     <option value="Practice Interview">Practice Interview</option>
                     <option value="Job Offer">Job Offer</option>
                     <option value="Hired">Hired</option>
                 </Select>
             </InputContainer>
-            <Button>Add</Button>
+            <Button type='submit' 
+                    onClick={e => {
+                        e.preventDefault();
+                        addJobApplication({
+                            company,
+                            role,
+                            status
+                        });
+                        setCompany("");
+                        setRole("");
+                        setStatus("");
+                     }    
+                    }
+            >Add</Button>
         </Form>
     );
 }

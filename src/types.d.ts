@@ -8,6 +8,4 @@ interface JobApplicationProps {
   job: JobApplication;
 }
 
-interface Props {
-    jobs: JobApplication[]
-}
+type AddJobApplication = (job: JobApplication) => void;
