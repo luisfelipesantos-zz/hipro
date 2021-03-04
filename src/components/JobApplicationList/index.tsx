@@ -1,18 +1,22 @@
 import React from 'react';
 import { JobApplication } from '../JobApplication';
+import { useSelector } from 'react-redux';
 
-interface Props {
-    jobs: JobApplication[]
-}
 
-export const JobApplicationList: React.FC<Props> = ({ jobs }) => {
+
+export const JobApplicationList: React.FC = ({}) => {
+    const { jobs } = useSelector((state: JobApplicationState) => {
+      return {
+        jobs: state.jobs
+      }
+    });
+
   return (
     <>
       {
-        jobs.map(job => <JobApplication job={job} />)
+        jobs.map(job => <JobApplication key={Math.random()} job={job} />)
       }
     </>
   );
 }
-
 

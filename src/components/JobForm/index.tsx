@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Title, InputContainer, Button, Input, Select, Label } from "./styles";
 
-interface Props {
-    addJobApplication: AddJobApplication;
-}
-
-export const JobForm: React.FC<Props> = ({addJobApplication}) => {
+export const JobForm: React.FC = ({}) => {
 
     const [company, setCompany] = useState("");
     const [role, setRole] = useState("");
@@ -38,11 +34,11 @@ export const JobForm: React.FC<Props> = ({addJobApplication}) => {
             <Button type='submit' 
                     onClick={e => {
                         e.preventDefault();
-                        addJobApplication({
-                            company,
-                            role,
-                            status
-                        });
+                        // addJobApplication({
+                        //     company,
+                        //     role,
+                        //     status
+                        // });
                         setCompany("");
                         setRole("");
                         setStatus("");

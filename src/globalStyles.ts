@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
     body {
-        background-color: #F6F6F6;
+        background-color: #EDEDED;
         font-family: "Montserrat", sans-serif;
     }
 
@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
         margin: 2em auto;
         max-width: 30em;
         width: 80%;
-        background-color: #EEE; 
+        background-color: #ddd; 
         height: 1px; 
         border: 0
     }
