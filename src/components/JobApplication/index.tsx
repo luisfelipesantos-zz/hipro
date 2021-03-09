@@ -1,9 +1,12 @@
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
 import { Container, ButtonDiv, Button, JobInfo, Label, Status } from "./styles";
-
+import { deleteJobApplication } from '../../store/actions';
 
 export const JobApplication: React.FC<JobApplicationProps> = ({ job }) => {
+
+    const dispatch = useDispatch();
     return (
         <Container>
             <JobInfo>
@@ -14,7 +17,9 @@ export const JobApplication: React.FC<JobApplicationProps> = ({ job }) => {
             </JobInfo>
             
             <ButtonDiv>  
-                <Button>
+                <Button onClick={() => {
+                    dispatch(deleteJobApplication(job.id))
+                }}>
                     <AiOutlineClose />
                 </Button>
             </ButtonDiv>

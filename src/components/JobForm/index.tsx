@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Title, InputContainer, Button, Input, Select, Label } from "./styles";
+import { addJobApplication } from '../../store/actions';
+import { useDispatch } from 'react-redux';
 
-export const JobForm: React.FC = ({}) => {
+export const JobForm: React.FC = () => {
 
     const [company, setCompany] = useState("");
     const [role, setRole] = useState("");
     const [status, setStatus] = useState("Applied");
+    const dispatch = useDispatch();
 
     return (
         <Form>
@@ -23,8 +26,8 @@ export const JobForm: React.FC = ({}) => {
             
             <InputContainer>
                 <Label><b>Status:</b></Label>
-                <Select onChange={e => setStatus(e.target.value)} name="status" id="">
-                    <option value="Applied" selected>Applied</option>
+                <Select onChange={e => setStatus(e.target.value)} value={status} name="status" id="">
+                    <option value="Applied">Applied</option>
                     <option value="Interview">Interview</option>
                     <option value="Practice Interview">Practice Interview</option>
                     <option value="Job Offer">Job Offer</option>
@@ -34,11 +37,12 @@ export const JobForm: React.FC = ({}) => {
             <Button type='submit' 
                     onClick={e => {
                         e.preventDefault();
-                        // addJobApplication({
-                        //     company,
-                        //     role,
-                        //     status
-                        // });
+                        dispatch(addJobApplication({
+                            id: Math.random(),
+                            company,
+                            role,
+                            status
+                        }));
                         setCompany("");
                         setRole("");
                         setStatus("");
