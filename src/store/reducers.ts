@@ -1,5 +1,6 @@
 const initialState: JobApplicationState = {
-    jobs: []
+    jobs: [],
+    loading: false
 }
 
 const reducer = (state: JobApplicationState = initialState, action: JobApplicationActionTypes) => {
@@ -7,7 +8,14 @@ const reducer = (state: JobApplicationState = initialState, action: JobApplicati
         case "ADD_JOBAPPLICATION":
             return {
                 ...state, 
-                jobs: [...state.jobs, action.payload]
+                jobs: [...state.jobs, action.payload],
+                loading: false
+            }
+
+        case "ADD_JOBAPPLICATION_ASYNC":
+            return {
+                ...state, 
+                loading: true
             }
             
 

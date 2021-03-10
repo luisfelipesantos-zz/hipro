@@ -6,14 +6,9 @@ import logo from './assets/logo.png';
 import { Provider } from 'react-redux';
 import store from './store';
 
-const initialJobs: JobApplication[] = [];
 
 
 const App: React.FC = () => {
-
-  const [jobs, setJobs] = useState(initialJobs);
-
-
   return (
     <Provider store={store}>
       <GlobalStyle />

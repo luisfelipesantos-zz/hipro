@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Title, InputContainer, Button, Input, Select, Label } from "./styles";
-import { addJobApplication } from '../../store/actions';
-import { useDispatch } from 'react-redux';
+import { addJobApplicationAsync } from '../../store/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const JobForm: React.FC = () => {
 
@@ -9,6 +9,7 @@ export const JobForm: React.FC = () => {
     const [role, setRole] = useState("");
     const [status, setStatus] = useState("Applied");
     const dispatch = useDispatch();
+    const loading = useSelector((state: JobApplicationState) => state.loading)
 
     return (
         <Form>
@@ -37,7 +38,7 @@ export const JobForm: React.FC = () => {
             <Button type='submit' 
                     onClick={e => {
                         e.preventDefault();
-                        dispatch(addJobApplication({
+                        dispatch(addJobApplicationAsync({
                             id: Math.random(),
                             company,
                             role,
@@ -48,7 +49,7 @@ export const JobForm: React.FC = () => {
                         setStatus("");
                      }    
                     }
-            >Add</Button>
+            >{loading ? "Loading..." : "Add"}</Button>
         </Form>
     );
 }
