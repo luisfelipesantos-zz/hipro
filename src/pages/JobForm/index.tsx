@@ -10,6 +10,7 @@ import {
 } from "./styles";
 import { addJobApplicationAsync } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 const initialStateValues: JobApplication = {
   id: 0,
@@ -19,6 +20,8 @@ const initialStateValues: JobApplication = {
 };
 
 export const JobForm: React.FC = () => {
+  const history = useHistory();
+
   const [jobFormData, setJobFormData] = useState(initialStateValues);
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,6 +33,8 @@ export const JobForm: React.FC = () => {
       })
     );
     setJobFormData(initialStateValues);
+
+    history.push("/jobs");
   };
 
   const dispatch = useDispatch();

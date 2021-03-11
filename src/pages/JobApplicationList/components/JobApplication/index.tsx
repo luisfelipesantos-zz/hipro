@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { Container, ButtonDiv, Button, JobInfo, Label, Status } from "./styles";
-import { deleteJobApplication } from "../../store/actions";
+import { deleteJobApplication } from "../../../../store/actions";
 
 export const JobApplication: React.FC<JobApplicationProps> = ({ job }) => {
   const dispatch = useDispatch();

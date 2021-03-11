@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { JobApplication } from "../JobApplication";
+import { JobApplication } from "./components/JobApplication";
 
 export const JobApplicationList: React.FC = () => {
   const jobs = useSelector((state: JobApplicationState) => state.jobs);
