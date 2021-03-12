@@ -2,6 +2,7 @@ import React from "react";
 import { JobApplicationList } from "./pages/JobApplicationList";
 import { JobForm } from "./pages/JobForm";
 import { Home } from "./pages/Home";
+import { Job } from "./pages/Job";
 import { GlobalStyle } from "./globalStyles";
 import logo from "./assets/logo.png";
 import { Provider } from "react-redux";
@@ -15,6 +16,10 @@ const App: React.FC = () => {
       <img src={logo} alt="HiPro logo" />
 
       <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+
         <Route path="/form">
           <JobForm />
         </Route>
@@ -23,8 +28,8 @@ const App: React.FC = () => {
           <JobApplicationList />
         </Route>
 
-        <Route path="/">
-          <Home />
+        <Route path="/job/:id">
+          <Job />
         </Route>
       </Switch>
     </Provider>

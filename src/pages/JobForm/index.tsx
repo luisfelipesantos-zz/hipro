@@ -27,14 +27,17 @@ export const JobForm: React.FC = () => {
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
-      addJobApplicationAsync({
-        ...jobFormData,
-        id: Math.random(),
-      })
+      addJobApplicationAsync(
+        {
+          ...jobFormData,
+          id: Math.random(),
+        },
+        () => {
+          history.push("/jobs");
+        }
+      )
     );
     setJobFormData(initialStateValues);
-
-    history.push("/jobs");
   };
 
   const dispatch = useDispatch();
