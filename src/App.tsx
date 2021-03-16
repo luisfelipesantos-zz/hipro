@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { JobApplicationList } from "./pages/JobApplicationList";
 import { JobForm } from "./pages/JobForm";
 import { Home } from "./pages/Home";
 import { Job } from "./pages/Job";
 import { GlobalStyle } from "./globalStyles";
 import logo from "./assets/logo.png";
-import { Provider } from "react-redux";
-import store from "./store";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { fetchJobs } from "./store/actions";
+import { useDispatch } from "react-redux";
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchJobs());
+  }, []);
+
   return (
-    <Provider store={store}>
+    <>
       <GlobalStyle />
       <img src={logo} alt="HiPro logo" />
 
@@ -32,7 +38,7 @@ const App: React.FC = () => {
           <Job />
         </Route>
       </Switch>
-    </Provider>
+    </>
   );
 };
 

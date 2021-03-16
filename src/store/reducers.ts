@@ -12,19 +12,19 @@ const reducer = (
       return {
         ...state,
         jobs: [...state.jobs, action.payload],
-        loading: false,
       };
 
-    case "ADD_JOBAPPLICATION_ASYNC":
+    case "JOBAPPLICATION_FETCH":
       return {
         ...state,
         loading: true,
       };
 
-    case "FETCH_JOBAPPLICATIONS":
+    case "JOBAPPLICATION_FETCH_SUCCESS":
       return {
         ...state,
-        jobs: [...state.jobs],
+        jobs: action.payload,
+        loading: false,
       };
 
     case "DELETE_JOBAPPLICATION":

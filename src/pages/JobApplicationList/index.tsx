@@ -1,19 +1,40 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { JobApplication } from "./components/JobApplication";
 import { HomeButton } from "../Home/styles";
 import { ButtonGroup } from "./styles";
 import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 
 export const JobApplicationList: React.FC = () => {
-  const jobs = useSelector((state: JobApplicationState) => state.jobs);
   const history = useHistory();
+
+  const state = useSelector((state: JobApplicationState) => state);
+
+  const jobs = state.jobs;
 
   return (
     <>
-      {jobs.map((job) => (
-        <JobApplication key={Math.random()} job={job} />
-      ))}
+      {state.loading ? (
+        <p
+          style={{
+            color: "#555",
+            textAlign: "center",
+          }}
+        >
+          Loading...
+        </p>
+      ) : jobs.length === 0 ? (
+        <p
+          style={{
+            color: "#555",
+            textAlign: "center",
+          }}
+        >
+          No job applications found
+        </p>
+      ) : (
+        jobs.map((job) => <JobApplication key={Math.random()} job={job} />)
+      )}
 
       <ButtonGroup>
         <HomeButton

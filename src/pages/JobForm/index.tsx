@@ -8,9 +8,10 @@ import {
   Select,
   Label,
 } from "./styles";
-import { addJobApplicationAsync } from "../../store/actions";
+import { addJobApplication } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { HomeButton } from "../Home/styles";
 
 const initialStateValues: JobApplication = {
   id: 0,
@@ -23,27 +24,25 @@ export const JobForm: React.FC = () => {
   const history = useHistory();
 
   const [jobFormData, setJobFormData] = useState(initialStateValues);
+  const [loading, setLoading] = useState(false);
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
-      addJobApplicationAsync(
-        {
-          ...jobFormData,
-          id: Math.random(),
-        },
-        () => {
-          history.push("/jobs");
-        }
-      )
-    );
+      addJobApplication({
+        ...jobFormData,
+        id: Math.random(),
+      })
+    ); 
     setJobFormData(initialStateValues);
+    setLoading(true);
+    history.push("/jobs");
   };
 
   const dispatch = useDispatch();
-  const loading = useSelector((state: JobApplicationState) => state.loading);
 
   return (
+    <>
     <Form onSubmit={submitForm}>
       <Title>Add a job application</Title>
 
@@ -96,5 +95,8 @@ export const JobForm: React.FC = () => {
       </InputContainer>
       <Button type="submit">{loading ? "Loading..." : "Add"}</Button>
     </Form>
+
+    <HomeButton style={{marginTop: "5em"}} onClick={() => history.goBack()}>Go Back</HomeButton>
+</>
   );
 };

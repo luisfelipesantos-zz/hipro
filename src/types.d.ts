@@ -1,7 +1,8 @@
 declare const ADD_JOBAPPLICATION = "ADD_JOBAPPLICATION";
 declare const DELETE_JOBAPPLICATION = "DELETE_JOBAPPLICATION";
 declare const FETCH_JOBAPPLICATIONS = "FETCH_JOBAPPLICATIONS";
-declare const ADD_JOBAPPLICATION_ASYNC = "ADD_JOBAPPLICATION_ASYNC";
+declare const JOBAPPLICATION_FETCH_SUCCESS = "JOBAPPLICATION_FETCH_SUCCESS";
+declare const JOBAPPLICATION_FETCH = "JOBAPPLICATION_FETCH";
 
 interface JobApplication {
   id: number;
@@ -16,7 +17,7 @@ interface JobApplicationProps {
 
 interface JobApplicationState {
   jobs: JobApplication[];
-  loading: boolean;
+  loading?: boolean;
 }
 
 interface AddJobApplicationAction {
@@ -24,12 +25,12 @@ interface AddJobApplicationAction {
   payload: JobApplication;
 }
 
-interface AddJobApplicationAsyncAction {
-  type: typeof ADD_JOBAPPLICATION_ASYNC;
+interface JobApplicationFetchAction {
+  type: typeof JOBAPPLICATION_FETCH;
 }
 
-interface FetchJobApplicationsAction {
-  type: typeof FETCH_JOBAPPLICATIONS;
+interface JobApplicationFetchSuccessAction {
+  type: typeof JOBAPPLICATION_FETCH_SUCCESS;
   payload: JobApplication[];
 }
 
@@ -42,5 +43,5 @@ type JobApplicationActionTypes =
   | AddJobApplicationAction
   | DeleteJobApplicationAction
   | FetchJobApplicationsAction
-  | AddJobApplicationAsyncAction;
+  | JobApplicationFetchSuccessAction;
 type AddJobApplication = (job: JobApplication) => void;
