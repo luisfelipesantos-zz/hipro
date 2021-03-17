@@ -26,77 +26,91 @@ export const JobForm: React.FC = () => {
   const [jobFormData, setJobFormData] = useState(initialStateValues);
   const [loading, setLoading] = useState(false);
 
-  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
-      addJobApplication({
-        ...jobFormData,
-        id: Math.random(),
-      })
-    ); 
-    setJobFormData(initialStateValues);
-    setLoading(true);
-    history.push("/jobs");
+
+    try {
+      setLoading(true);
+      await new Promise((res) => {
+        setTimeout(() => {
+          res("");
+        }, 1000);
+      });
+
+      dispatch(
+        addJobApplication({
+          ...jobFormData,
+          id: Math.random(),
+        })
+      );
+
+      setJobFormData(initialStateValues);
+      history.push("/jobs");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const dispatch = useDispatch();
 
   return (
     <>
-    <Form onSubmit={submitForm}>
-      <Title>Add a job application</Title>
+      <Form onSubmit={submitForm}>
+        <Title>Add a job application</Title>
 
-      <InputContainer>
-        <Label>
-          <b>Company:</b>
-        </Label>
-        <Input
-          required
-          type="text"
-          value={jobFormData.company}
-          onChange={(e) =>
-            setJobFormData({ ...jobFormData, company: e.target.value })
-          }
-        />
-      </InputContainer>
+        <InputContainer>
+          <Label>
+            <b>Company:</b>
+          </Label>
+          <Input
+            required
+            type="text"
+            value={jobFormData.company}
+            onChange={(e) =>
+              setJobFormData({ ...jobFormData, company: e.target.value })
+            }
+          />
+        </InputContainer>
 
-      <InputContainer>
-        <Label>
-          <b>Role:</b>
-        </Label>
-        <Input
-          required
-          type="text"
-          value={jobFormData.role}
-          onChange={(e) =>
-            setJobFormData({ ...jobFormData, role: e.target.value })
-          }
-        />
-      </InputContainer>
+        <InputContainer>
+          <Label>
+            <b>Role:</b>
+          </Label>
+          <Input
+            required
+            type="text"
+            value={jobFormData.role}
+            onChange={(e) =>
+              setJobFormData({ ...jobFormData, role: e.target.value })
+            }
+          />
+        </InputContainer>
 
-      <InputContainer>
-        <Label>
-          <b>Status:</b>
-        </Label>
-        <Select
-          onChange={(e) =>
-            setJobFormData({ ...jobFormData, status: e.target.value })
-          }
-          value={jobFormData.status}
-          name="status"
-          id=""
-        >
-          <option value="Applied">Applied</option>
-          <option value="Interview">Interview</option>
-          <option value="Practice Interview">Practice Interview</option>
-          <option value="Job Offer">Job Offer</option>
-          <option value="Hired">Hired</option>
-        </Select>
-      </InputContainer>
-      <Button type="submit">{loading ? "Loading..." : "Add"}</Button>
-    </Form>
+        <InputContainer>
+          <Label>
+            <b>Status:</b>
+          </Label>
+          <Select
+            onChange={(e) =>
+              setJobFormData({ ...jobFormData, status: e.target.value })
+            }
+            value={jobFormData.status}
+            name="status"
+            id=""
+          >
+            <option value="Applied">Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Practice Interview">Practice Interview</option>
+            <option value="Job Offer">Job Offer</option>
+            <option value="Hired">Hired</option>
+          </Select>
+        </InputContainer>
+        <Button type="submit">{loading ? "Loading..." : "Add"}</Button>
+      </Form>
 
-    <HomeButton style={{marginTop: "5em"}} onClick={() => history.goBack()}>Go Back</HomeButton>
-</>
+      <HomeButton style={{ marginTop: "5em" }} onClick={() => history.goBack()}>
+        Go Back
+      </HomeButton>
+    </>
   );
 };

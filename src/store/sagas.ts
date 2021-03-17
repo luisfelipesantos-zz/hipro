@@ -6,7 +6,6 @@ function* handleLocalStorage() {
   const jobs: JobApplicationState = yield select(selectors.jobState);
 
   try {
-    console.log(jobs);
     yield localStorage.setItem("jobs", JSON.stringify(jobs));
   } catch (error: any) {
     console.log(error);
