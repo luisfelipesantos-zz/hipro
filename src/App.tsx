@@ -3,6 +3,8 @@ import { JobApplicationList } from "./pages/JobApplicationList";
 import { JobForm } from "./pages/JobForm";
 import { Home } from "./pages/Home";
 import { Job } from "./pages/Job";
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
 import { GlobalStyle } from "./globalStyles";
 import logo from "./assets/logo.png";
 import { Route, Switch } from "react-router-dom";
@@ -24,6 +26,14 @@ const App: React.FC = () => {
       <Switch>
         <Route exact path="/">
           <Home />
+        </Route>
+
+        <Route path="/login">
+          <Login />
+        </Route>
+
+        <Route path="/register">
+          <Register />
         </Route>
 
         <Route path="/form">

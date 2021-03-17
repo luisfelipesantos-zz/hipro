@@ -1,13 +1,8 @@
 import styled from "styled-components";
-import { AiOutlineArrowsAlt } from "react-icons/ai";
 
 interface StatusProps {
   status: string;
 }
-
-export const OpenButton = styled(AiOutlineArrowsAlt)`
-  font-size: 20px;
-`;
 
 export const Container = styled.div`
   display: flex;
