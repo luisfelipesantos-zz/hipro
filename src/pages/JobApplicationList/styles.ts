@@ -8,3 +8,7 @@ export const ButtonGroup = styled.div`
   position: fixed;
   bottom: 0;
 `;
+
+export const ContentDiv = styled.div`
+  padding-bottom: 9em;
+`;

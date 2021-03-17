@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
+import { Modal, Tag, Button } from "rsuite";
 import { deleteJobApplication } from "../../store/actions";
 import { HomeButton } from "../Home/styles";
+import {
+  Label,
+  Status,
+} from "../JobApplicationList/components/JobApplication/styles";
 
 interface ParamTypes {
   id: string;
@@ -11,6 +16,7 @@ interface ParamTypes {
 export const Job: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
 
   const { id } = useParams<ParamTypes>();
   const jobInfo = useSelector((state: JobApplicationState) =>
@@ -22,41 +28,81 @@ export const Job: React.FC = () => {
     history.push("/jobs");
   };
 
+  const openModal = () => {
+    setShow(true);
+  };
+
+  const closeModal = () => {
+    setShow(false);
+  };
+
+  const statusColor = (status?: string) => {
+    switch (status) {
+      case "Applied":
+        return "yellow";
+      case "Interview":
+        return "orange";
+      case "Practice Interview":
+        return "red";
+      case "Job Offer":
+        return "blue";
+      case "Hired":
+        return "green";
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
       <div
         style={{
           backgroundColor: "#fff",
-          width: "75%",
+          width: "80%",
           borderRadius: "5px",
-          color: "#444",
+          color: "#666",
           boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.05)",
-          margin: "auto",
-          marginBottom: "3em",
-          padding: "0.5em 1em 0.5em 1em",
+          margin: "3em auto",
+          padding: "1em",
         }}
       >
-        <h3 style={{ textAlign: "center" }}>Job Information</h3>
-        <hr />
-        <p>
+        <h5 style={{ textAlign: "center" }}>Job Information</h5>
+        <hr style={{ margin: "10px auto" }} />
+        <Label>
           <b>Company name: </b>
           {jobInfo?.company}
-        </p>
+        </Label>
 
-        <p>
+        <Label>
           <b>Role: </b>
           {jobInfo?.role}
-        </p>
+        </Label>
 
-        <p>
-          <b>Status: </b>
-          {jobInfo?.status}
-        </p>
+        <Status>
+          <b>Status:</b>{" "}
+          <Tag color={statusColor(jobInfo?.status)}>{jobInfo?.status}</Tag>
+        </Status>
       </div>
-      <HomeButton style={{ backgroundColor: "#e23636" }} onClick={deleteAppJob}>
+      <HomeButton color="red" onClick={openModal}>
         Delete Job Application
       </HomeButton>
-      <HomeButton onClick={() => history.goBack()}>Go Back</HomeButton>
+      <HomeButton color="blue" onClick={() => history.goBack()}>
+        Go Back
+      </HomeButton>
+
+      <Modal size="xs" show={show} onHide={closeModal}>
+        <Modal.Body>
+          <p>Are you shure you want to delete this job application?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button appearance="primary" onClick={deleteAppJob}>
+            Yes
+          </Button>
+          <Button appearance="subtle" onClick={closeModal}>
+            No
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import {
   Form,
   Title,
-  InputContainer,
-  Button,
-  Input,
-  Select,
-  Label,
+  ButtonForm,
+  InputGroupForm,
+  InputPickerForm,
 } from "./styles";
 import { addJobApplication } from "../../store/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { HomeButton } from "../Home/styles";
+import { Input, Loader } from "rsuite";
 
 const initialStateValues: JobApplication = {
   id: 0,
@@ -53,62 +52,78 @@ export const JobForm: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  const statusData = [
+    {
+      label: "Applied",
+      value: "Applied",
+    },
+    {
+      label: "Interview",
+      value: "Interview",
+    },
+    {
+      label: "Practice Interview",
+      value: "Practice Interview",
+    },
+    {
+      label: "Job Offer",
+      value: "Job Offer",
+    },
+    {
+      label: "Hired",
+      value: "Hired",
+    },
+  ];
+
   return (
     <>
       <Form onSubmit={submitForm}>
         <Title>Add a job application</Title>
 
-        <InputContainer>
-          <Label>
-            <b>Company:</b>
-          </Label>
+        <InputGroupForm>
           <Input
             required
             type="text"
-            value={jobFormData.company}
-            onChange={(e) =>
-              setJobFormData({ ...jobFormData, company: e.target.value })
+            size="sm"
+            placeholder="Company"
+            onChange={(value) =>
+              setJobFormData({ ...jobFormData, company: value })
             }
           />
-        </InputContainer>
+        </InputGroupForm>
 
-        <InputContainer>
-          <Label>
-            <b>Role:</b>
-          </Label>
+        <InputGroupForm>
           <Input
             required
             type="text"
-            value={jobFormData.role}
-            onChange={(e) =>
-              setJobFormData({ ...jobFormData, role: e.target.value })
+            size="sm"
+            placeholder="Role"
+            onChange={(value: string) =>
+              setJobFormData({ ...jobFormData, role: value })
             }
           />
-        </InputContainer>
+        </InputGroupForm>
 
-        <InputContainer>
-          <Label>
-            <b>Status:</b>
-          </Label>
-          <Select
-            onChange={(e) =>
-              setJobFormData({ ...jobFormData, status: e.target.value })
-            }
-            value={jobFormData.status}
-            name="status"
-            id=""
-          >
-            <option value="Applied">Applied</option>
-            <option value="Interview">Interview</option>
-            <option value="Practice Interview">Practice Interview</option>
-            <option value="Job Offer">Job Offer</option>
-            <option value="Hired">Hired</option>
-          </Select>
-        </InputContainer>
-        <Button type="submit">{loading ? "Loading..." : "Add"}</Button>
+        <InputPickerForm
+          required
+          size="sm"
+          placeholder="Status"
+          data={statusData}
+          onSelect={(value: string) =>
+            setJobFormData({ ...jobFormData, status: value })
+          }
+        />
+
+        <ButtonForm color="blue" type="submit">
+          {loading ? <Loader size="xs" inverse center /> : "Add"}
+        </ButtonForm>
       </Form>
 
-      <HomeButton style={{ marginTop: "5em" }} onClick={() => history.goBack()}>
+      <HomeButton
+        color="blue"
+        style={{ marginTop: "3em" }}
+        onClick={() => history.goBack()}
+      >
         Go Back
       </HomeButton>
     </>

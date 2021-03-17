@@ -1,37 +1,50 @@
 import React from "react";
-import { AiOutlineArrowsAlt } from "react-icons/ai";
-import { useDispatch } from "react-redux";
 import { Container, ButtonDiv, Button, JobInfo, Label, Status } from "./styles";
-import { deleteJobApplication } from "../../../../store/actions";
 import { useHistory } from "react-router";
+import { Icon, Tag } from "rsuite";
 
 export const JobApplication: React.FC<JobApplicationProps> = ({ job }) => {
-  const dispatch = useDispatch();
   const history = useHistory();
+
+  const statusColor = (status: string) => {
+    switch (status) {
+      case "Applied":
+        return "yellow";
+      case "Interview":
+        return "orange";
+      case "Practice Interview":
+        return "red";
+      case "Job Offer":
+        return "blue";
+      case "Hired":
+        return "green";
+      default:
+        return "";
+    }
+  };
 
   return (
     <Container>
       <JobInfo>
         <Label>
-          <b>Company:</b> {job.company}{" "}
+          <b>Company:</b> {job.company}
         </Label>
         <Label>
           <b>Role:</b> {job.role}{" "}
         </Label>
         <hr />
-        <Status status={job.status}>
-          <b>Status:</b> {job.status}{" "}
+        <Status>
+          <b>Status:</b> <Tag color={statusColor(job.status)}>{job.status}</Tag>
         </Status>
       </JobInfo>
 
       <ButtonDiv>
         <Button
           onClick={() => {
-            // dispatch(deleteJobApplication(job.id));
             history.push(`/job/${job.id}`);
           }}
         >
-          <AiOutlineArrowsAlt size={20} color={"#444"} />
+          <Icon icon="arrows-alt" />
         </Button>
       </ButtonDiv>
     </Container>

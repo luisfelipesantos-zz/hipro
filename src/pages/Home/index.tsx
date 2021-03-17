@@ -1,6 +1,7 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
-import { HomeButton, LinkA } from "./styles";
+import { useHistory } from "react-router-dom";
+import { HomeButton } from "./styles";
+import "rsuite/lib/styles/index.less";
 
 export const Home: React.FC = () => {
   const history = useHistory();
@@ -8,6 +9,7 @@ export const Home: React.FC = () => {
   return (
     <>
       <HomeButton
+        color="blue"
         onClick={() => {
           history.push("/form");
         }}
@@ -15,6 +17,7 @@ export const Home: React.FC = () => {
         Register a new job application
       </HomeButton>
       <HomeButton
+        color="blue"
         onClick={() => {
           history.push("/jobs");
         }}

@@ -65,26 +65,10 @@ export const Label = styled.p`
   }
 `;
 
-export const Status = styled.p<StatusProps>`
+export const Status = styled.p`
   width: 100%;
   margin: 5px;
   font-weight: bold;
-  color: ${(props) => {
-    switch (props.status) {
-      case "Applied":
-        return "#F89F1B";
-      case "Interview":
-        return "#F8851B";
-      case "Practice Interview":
-        return "#F8501B";
-      case "Job Offer":
-        return "#6676C9";
-      case "Hired":
-        return "#0EA001";
-      default:
-        return "#000";
-    }
-  }};
 
   b {
     color: #7286ef;

@@ -1,28 +1,21 @@
 import React from "react";
 import { JobApplication } from "./components/JobApplication";
 import { HomeButton } from "../Home/styles";
-import { ButtonGroup } from "./styles";
+import { ButtonGroup, ContentDiv } from "./styles";
 import { useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { Loader } from "rsuite";
 
 export const JobApplicationList: React.FC = () => {
   const history = useHistory();
-
   const state = useSelector((state: JobApplicationState) => state);
 
   const jobs = state.jobs;
 
   return (
-    <>
+    <ContentDiv>
       {state.loading ? (
-        <p
-          style={{
-            color: "#555",
-            textAlign: "center",
-          }}
-        >
-          Loading...
-        </p>
+        <Loader center size="md" />
       ) : jobs.length === 0 ? (
         <p
           style={{
@@ -38,6 +31,7 @@ export const JobApplicationList: React.FC = () => {
 
       <ButtonGroup>
         <HomeButton
+          color="blue"
           onClick={() => {
             history.push("/");
           }}
@@ -45,6 +39,7 @@ export const JobApplicationList: React.FC = () => {
           Go back to home
         </HomeButton>
         <HomeButton
+          color="blue"
           onClick={() => {
             history.push("/form");
           }}
@@ -52,6 +47,6 @@ export const JobApplicationList: React.FC = () => {
           Add new job application
         </HomeButton>
       </ButtonGroup>
-    </>
+    </ContentDiv>
   );
 };
