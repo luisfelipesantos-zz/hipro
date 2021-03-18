@@ -35,7 +35,7 @@ export const Forgot = styled.p`
   text-align: center;
 
   a {
-    color: #88f;
+    text-decoration: underline;
     font-weight: bold;
   }
 `;
@@ -44,7 +44,7 @@ export const Register = styled.p`
   text-align: center;
 
   a {
-    color: #88f;
     font-weight: bold;
+    text-decoration: underline;
   }
 `;

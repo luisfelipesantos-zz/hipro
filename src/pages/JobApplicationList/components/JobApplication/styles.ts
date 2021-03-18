@@ -60,7 +60,7 @@ export const Label = styled.p`
   }
 `;
 
-export const Status = styled.p`
+export const Status = styled.div`
   width: 100%;
   margin: 5px;
   font-weight: bold;

@@ -10,6 +10,7 @@ import logo from "./assets/logo.png";
 import { Route, Switch } from "react-router-dom";
 import { fetchJobs } from "./store/actions";
 import { useDispatch } from "react-redux";
+import { AccountConfirmation } from "./pages/AccountConfirmation";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,10 @@ const App: React.FC = () => {
 
         <Route path="/jobs">
           <JobApplicationList />
+        </Route>
+
+        <Route path="/confirmaccount">
+          <AccountConfirmation />
         </Route>
 
         <Route path="/job/:id">

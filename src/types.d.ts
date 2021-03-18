@@ -11,6 +11,20 @@ interface JobApplication {
   status: string;
 }
 
+interface User {
+  phone: string;
+  password: string;
+  name: string;
+  email: string;
+  gender: string;
+  birthDate: string;
+}
+
+interface Login {
+  phone: string;
+  password: string;
+}
+
 interface JobApplicationProps {
   job: JobApplication;
 }
