@@ -10,6 +10,7 @@ import { Alert, ControlLabel, Icon, Input } from "rsuite";
 import { AiOutlineUser } from "react-icons/ai";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
+import Auth from "@aws-amplify/auth";
 
 const loginData: Login = {
   phone: "",
@@ -33,25 +34,31 @@ export const Login: React.FC = () => {
     return signIn.password.length < 8;
   };
 
+  const submitLogIn = async () => {
+    if (validateEmptyFields())
+      Alert.error("There are empty fields. Please fill all the fields.", 5000);
+    else if (validatePhoneNumber())
+      Alert.error("Incorrect phone number.", 5000);
+    else if (validatePassword())
+      Alert.error("The password must have 8 characters at least.", 5000);
+    else {
+      try {
+        const user = await Auth.signIn(
+          "+55".concat(signIn.phone.replace(/[^A-Z0-9]/gi, "")),
+          signIn.password
+        );
+      } catch (error) {
+        console.log("Something went wrong in signing in.", error);
+      }
+
+      setSignIn(loginData);
+      history.push("/");
+    }
+  };
+
   return (
     <>
-      <FormLogin
-        onSubmit={() => {
-          if (validateEmptyFields())
-            Alert.error(
-              "There are empty fields. Please fill all the fields.",
-              5000
-            );
-          else if (validatePhoneNumber())
-            Alert.error("Incorrect phone number.", 5000);
-          else if (validatePassword())
-            Alert.error("The password must have 8 characters at least.", 5000);
-          else {
-            setSignIn(loginData);
-            history.push("/");
-          }
-        }}
-      >
+      <FormLogin onSubmit={submitLogIn}>
         <HeadLogin>
           <AiOutlineUser size="50px" color="#777" />
         </HeadLogin>

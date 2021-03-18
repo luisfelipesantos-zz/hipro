@@ -7,7 +7,8 @@ import {
 import { ControlLabel, InputPicker, DatePicker, Input, Alert } from "rsuite";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { useState } from "react";
-import { exit } from "node:process";
+import { Auth } from "aws-amplify";
+import { useHistory } from "react-router";
 
 const userData: User = {
   phone: "",
@@ -19,6 +20,7 @@ const userData: User = {
 };
 
 export const Register: React.FC = () => {
+  const history = useHistory();
   const validateEmptyFields = () => {
     return (
       user.phone === "" ||
@@ -54,7 +56,14 @@ export const Register: React.FC = () => {
     },
   ];
 
-  const submitForm = () => {
+  const generateRandomString = (length = 6) =>
+    Math.random().toString(20).substr(2, length);
+
+  const submitForm = async () => {
+    const username = user.name
+      .substr(0, user.name.indexOf(" "))
+      .concat(generateRandomString());
+
     if (validateEmptyFields())
       Alert.error("There are empty fields. Please fill all the fields.", 5000);
     else if (validatePhoneNumber()) Alert.error("Incorrect phone number", 5000);
@@ -62,7 +71,28 @@ export const Register: React.FC = () => {
       Alert.error("The password must have 8 characters at least.", 5000);
     else if (validateEmail())
       Alert.error("The email may be wrong, please, try again.", 5000);
-    else setUser(userData);
+    else {
+      try {
+        const { user: cognitoUser } = await Auth.signUp({
+          username,
+          password: user.password,
+          attributes: {
+            email: user.email,
+            phone_number: "+55".concat(user.phone.replace(/[^A-Z0-9]/gi, "")),
+            birthDate: user.birthDate,
+            gender: user.gender,
+            name: user.name,
+          },
+        });
+
+        console.log(cognitoUser);
+      } catch (error) {
+        console.log("Something went wrong in signing up", error);
+      }
+
+      setUser(userData);
+      history.push(`/confirmaccount/${username}`);
+    }
   };
 
   const [user, setUser] = useState(userData);

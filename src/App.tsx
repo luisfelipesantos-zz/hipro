@@ -45,7 +45,7 @@ const App: React.FC = () => {
           <JobApplicationList />
         </Route>
 
-        <Route path="/confirmaccount">
+        <Route path="/confirmaccount/:username">
           <AccountConfirmation />
         </Route>
 
