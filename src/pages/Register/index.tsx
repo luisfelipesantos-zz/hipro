@@ -15,19 +15,22 @@ const userData: User = {
   password: "",
   name: "",
   email: "",
-  gender: "",
+  gender: "0",
   birthDate: "",
 };
 
 export const Register: React.FC = () => {
   const history = useHistory();
+  const [user, setUser] = useState(userData);
+  const [loading, setLoading] = useState(false);
+
   const validateEmptyFields = () => {
     return (
       user.phone === "" ||
       user.password === "" ||
       user.email === "" ||
       user.name === "" ||
-      user.gender === "" ||
+      user.gender === "0" ||
       user.birthDate === ""
     );
   };
@@ -48,11 +51,11 @@ export const Register: React.FC = () => {
   const genderData = [
     {
       label: "Male",
-      value: "male",
+      value: "1",
     },
     {
       label: "Female",
-      value: "female",
+      value: "2",
     },
   ];
 
@@ -60,6 +63,8 @@ export const Register: React.FC = () => {
     Math.random().toString(20).substr(2, length);
 
   const submitForm = async () => {
+    setLoading(true);
+
     const username = user.name
       .substr(0, user.name.indexOf(" "))
       .concat(generateRandomString());
@@ -79,23 +84,37 @@ export const Register: React.FC = () => {
           attributes: {
             email: user.email,
             phone_number: "+55".concat(user.phone.replace(/[^A-Z0-9]/gi, "")),
-            birthDate: user.birthDate,
+            birthdate: user.birthDate,
             gender: user.gender,
             name: user.name,
           },
         });
 
         console.log(cognitoUser);
+        setLoading(false);
       } catch (error) {
         console.log("Something went wrong in signing up", error);
       }
 
       setUser(userData);
+
       history.push(`/confirmaccount/${username}`);
     }
   };
 
-  const [user, setUser] = useState(userData);
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear().toString();
+    const month =
+      date.getMonth().toString().length === 1
+        ? `0${date.getMonth() + 1}`
+        : date.getMonth() + 1;
+    const day =
+      date.getDate().toString().length === 1
+        ? `0${date.getDate()}`
+        : date.getDate();
+
+    return `${year}-${month}-${day}`;
+  };
 
   return (
     <>
@@ -164,20 +183,20 @@ export const Register: React.FC = () => {
         <FormGroupLogin>
           <ControlLabel>Birth Date</ControlLabel>
           <DatePicker
-            value={user.birthDate !== "" ? new Date(user.birthDate) : undefined}
             style={{ width: "100%" }}
             placement="auto"
             placeholder="Select..."
+            format="YYYY-MM-DD"
             onChange={(date) =>
               setUser({
                 ...user,
-                birthDate: date !== null ? date.toString() : "",
+                birthDate: date !== null ? formatDate(date) : "",
               })
             }
           ></DatePicker>
         </FormGroupLogin>
 
-        <ButtonLogin type="submit" color="blue">
+        <ButtonLogin loading={loading} type="submit" color="blue">
           Register
         </ButtonLogin>
       </FormLogin>

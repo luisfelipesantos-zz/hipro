@@ -21,6 +21,7 @@ export const Login: React.FC = () => {
   const history = useHistory();
 
   const [signIn, setSignIn] = useState(loginData);
+  const [loading, setLoading] = useState(false);
 
   const validateEmptyFields = () => {
     return signIn.phone === "" || signIn.password === "";
@@ -43,15 +44,18 @@ export const Login: React.FC = () => {
       Alert.error("The password must have 8 characters at least.", 5000);
     else {
       try {
+        setLoading(true);
         const user = await Auth.signIn(
           "+55".concat(signIn.phone.replace(/[^A-Z0-9]/gi, "")),
           signIn.password
         );
+        console.log("Successful login", user);
       } catch (error) {
         console.log("Something went wrong in signing in.", error);
       }
 
       setSignIn(loginData);
+      setLoading(false);
       history.push("/");
     }
   };
@@ -91,7 +95,7 @@ export const Login: React.FC = () => {
           ></Input>
         </FormGroupLogin>
 
-        <ButtonLogin type="submit" color="blue">
+        <ButtonLogin loading={loading} type="submit" color="blue">
           Login
         </ButtonLogin>
       </FormLogin>

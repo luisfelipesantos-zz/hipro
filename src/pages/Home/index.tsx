@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { HomeButton } from "./styles";
 import "rsuite/lib/styles/index.less";
@@ -7,9 +7,14 @@ import Auth from "@aws-amplify/auth";
 export const Home: React.FC = () => {
   const history = useHistory();
 
+  const [loading, setLoading] = useState(false);
+
   const logOut = async () => {
+    setLoading(true);
     try {
       await Auth.signOut();
+      setLoading(false);
+      console.log("Signed out successfully");
     } catch (error) {
       console.log("Something went wrong in signing out.", error);
     }
@@ -44,7 +49,7 @@ export const Home: React.FC = () => {
           position: "absolute",
         }}
       >
-        <HomeButton color="red" onClick={logOut}>
+        <HomeButton loading={loading} color="red" onClick={logOut}>
           Log out
         </HomeButton>
       </div>

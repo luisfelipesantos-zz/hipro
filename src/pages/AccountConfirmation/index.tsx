@@ -12,14 +12,16 @@ interface ParamTypes {
 
 export const AccountConfirmation: React.FC = () => {
   const { username } = useParams<ParamTypes>();
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const verifyAccount = async () => {
+    setLoading(true);
     try {
       await Auth.confirmSignUp(username, code);
+      setLoading(false);
     } catch (error) {}
   };
-
-  const [code, setCode] = useState("");
 
   return (
     <>
@@ -43,7 +45,7 @@ export const AccountConfirmation: React.FC = () => {
               setCode(value);
             }}
           />
-          <HomeButton type="submit" appearance="primary">
+          <HomeButton loading={loading} type="submit" appearance="primary">
             Verify Code
           </HomeButton>
         </Form>
