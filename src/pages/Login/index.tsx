@@ -50,13 +50,14 @@ export const Login: React.FC = () => {
           signIn.password
         );
         console.log("Successful login", user);
+        setSignIn(loginData);
+        setLoading(false);
+        history.push("/");
       } catch (error) {
-        console.log("Something went wrong in signing in.", error);
+        Alert.error(error.message);
+        setSignIn(loginData);
+        setLoading(false);
       }
-
-      setSignIn(loginData);
-      setLoading(false);
-      history.push("/");
     }
   };
 
@@ -89,6 +90,7 @@ export const Login: React.FC = () => {
           <ControlLabel>Password</ControlLabel>
           <Input
             type="password"
+            value={signIn.password}
             onChange={(value) => {
               setSignIn({ ...signIn, password: value });
             }}

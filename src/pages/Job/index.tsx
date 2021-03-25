@@ -8,6 +8,9 @@ import {
   Label,
   Status,
 } from "../JobApplicationList/components/JobApplication/styles";
+import axios from "axios";
+
+require("dotenv").config();
 
 interface ParamTypes {
   id: string;
@@ -20,10 +23,12 @@ export const Job: React.FC = () => {
 
   const { id } = useParams<ParamTypes>();
   const jobInfo = useSelector((state: JobApplicationState) =>
-    state.jobs.find((job: JobApplication) => job.id === parseFloat(id))
+    state.jobs.find((job: JobApplication) => job.id === id)
   );
 
-  const deleteAppJob = () => {
+  const deleteAppJob = async () => {
+    await axios.delete(`${process.env.REACT_APP__AXIOS_BASEURL}/jobs/${id}`);
+
     if (jobInfo !== undefined) dispatch(deleteJobApplication(jobInfo.id));
     history.push("/jobs");
   };

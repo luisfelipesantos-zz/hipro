@@ -14,6 +14,7 @@ export const Home: React.FC = () => {
     try {
       await Auth.signOut();
       setLoading(false);
+      history.push("/login");
       console.log("Signed out successfully");
     } catch (error) {
       console.log("Something went wrong in signing out.", error);

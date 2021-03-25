@@ -1,6 +1,8 @@
 import { all, put, takeLatest, fork, select } from "redux-saga/effects";
-import { addJobApplication, fetchJobsSuccess } from "./actions";
+import { fetchJobsSuccess } from "./actions";
 import * as selectors from "./selectors";
+import axios, { AxiosResponse } from "axios";
+require("dotenv").config();
 
 function* handleLocalStorage() {
   const jobs: JobApplicationState = yield select(selectors.jobState);
@@ -13,14 +15,14 @@ function* handleLocalStorage() {
 }
 
 function* handleFetchJobs() {
-  yield new Promise((res) => setTimeout(res, 1000));
-  const jobs = localStorage.getItem("jobs");
+  const res: AxiosResponse = yield axios.get(
+    `${process.env.REACT_APP__AXIOS_BASEURL}/jobs`
+  );
 
-  if (jobs !== null) {
-    yield put(fetchJobsSuccess(JSON.parse(jobs)));
-  } else {
-    yield put(fetchJobsSuccess([]));
-  }
+  const jobs = res.data;
+  localStorage.setItem("jobs", jobs);
+
+  yield put(fetchJobsSuccess(jobs));
 }
 
 function* watchFetchJobs() {

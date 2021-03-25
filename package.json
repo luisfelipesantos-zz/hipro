@@ -13,6 +13,7 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
     "aws-amplify": "^3.3.24",
+    "axios": "^0.21.1",
     "customize-cra": "^1.0.0",
     "dotenv": "^8.2.0",
     "less": "^4.1.1",

@@ -5,7 +5,7 @@ declare const JOBAPPLICATION_FETCH_SUCCESS = "JOBAPPLICATION_FETCH_SUCCESS";
 declare const JOBAPPLICATION_FETCH = "JOBAPPLICATION_FETCH";
 
 interface JobApplication {
-  id: number;
+  id?: uuid | undefined;
   company: string;
   role: string;
   status: string;

@@ -11,9 +11,11 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { HomeButton } from "../Home/styles";
 import { Input, Loader } from "rsuite";
+import axios, { AxiosResponse } from "axios";
+
+require("dotenv").config();
 
 const initialStateValues: JobApplication = {
-  id: 0,
   company: "",
   role: "",
   status: "Applied",
@@ -36,12 +38,14 @@ export const JobForm: React.FC = () => {
         }, 1000);
       });
 
-      dispatch(
-        addJobApplication({
-          ...jobFormData,
-          id: Math.random(),
-        })
+      const newJob: AxiosResponse = await axios.post(
+        `${process.env.REACT_APP__AXIOS_BASEURL}/jobs`,
+        jobFormData
       );
+
+      console.log(newJob);
+
+      dispatch(addJobApplication(newJob.data));
 
       setJobFormData(initialStateValues);
       history.push("/jobs");
