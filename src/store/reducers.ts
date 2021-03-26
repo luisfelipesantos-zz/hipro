@@ -1,6 +1,8 @@
 const initialState: JobApplicationState = {
   jobs: [],
   loading: false,
+  userLoading: true,
+  userLogged: false,
 };
 
 const reducer = (
@@ -31,6 +33,25 @@ const reducer = (
       return {
         ...state,
         jobs: state.jobs.filter((job) => job.id !== action.payload),
+      };
+
+    case "USER_FETCH_SUCCESS":
+      return {
+        ...state,
+        userLoading: false,
+        userLogged: true,
+      };
+
+    case "USER_FETCH_ERROR":
+      return {
+        ...state,
+        userLoading: false,
+      };
+
+    case "USER_FETCH":
+      return {
+        ...state,
+        userLoading: true,
       };
 
     default:

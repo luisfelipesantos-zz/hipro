@@ -8,7 +8,7 @@ import {
   Label,
   Status,
 } from "../JobApplicationList/components/JobApplication/styles";
-import axios from "axios";
+import api from "../../api";
 
 require("dotenv").config();
 
@@ -27,7 +27,7 @@ export const Job: React.FC = () => {
   );
 
   const deleteAppJob = async () => {
-    await axios.delete(`${process.env.REACT_APP__AXIOS_BASEURL}/jobs/${id}`);
+    await api.delete(`${process.env.REACT_APP__AXIOS_BASEURL}/jobs/${id}`);
 
     if (jobInfo !== undefined) dispatch(deleteJobApplication(jobInfo.id));
     history.push("/jobs");

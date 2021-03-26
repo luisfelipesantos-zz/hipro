@@ -5,12 +5,22 @@ export const addJobApplication = (job: JobApplication) =>
 
 export const fetchJobs = () => action("JOBAPPLICATION_FETCH");
 
+export const fetchUser = () => action("USER_FETCH");
+
+export const fetchUserSuccess = () => {
+  console.log("Como assim essa merda chegou aqui");
+  return action("USER_FETCH_SUCCESS");
+};
+
+export const fetchUserError = () => {
+  return action("USER_FETCH_ERROR");
+};
+
 export const fetchJobsSuccess = (jobs: JobApplication[]) => {
   return action("JOBAPPLICATION_FETCH_SUCCESS", jobs);
 };
 
 export const fetchJobsError = () => action("JOBAPPLICATION_FETCH_ERROR");
-
 
 export const deleteJobApplication = (id: number) =>
   action("DELETE_JOBAPPLICATION", id);

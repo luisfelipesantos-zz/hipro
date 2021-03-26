@@ -32,6 +32,8 @@ interface JobApplicationProps {
 interface JobApplicationState {
   jobs: JobApplication[];
   loading?: boolean;
+  userLoading?: boolean;
+  userLogged?: boolean;
 }
 
 interface AddJobApplicationAction {

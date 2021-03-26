@@ -4,9 +4,12 @@ import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store";
 import { BrowserRouter } from "react-router-dom";
-import Amplify, { Auth } from "aws-amplify";
+import Amplify from "aws-amplify";
+import { configureAxios } from "./setup";
 
 require("dotenv").config();
+
+configureAxios();
 
 Amplify.configure({
   Auth: {

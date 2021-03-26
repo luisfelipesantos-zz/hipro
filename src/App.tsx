@@ -8,7 +8,7 @@ import { Register } from "./pages/Register";
 import { GlobalStyle } from "./globalStyles";
 import logo from "./assets/logo.png";
 import { Route, Switch } from "react-router-dom";
-import { fetchJobs } from "./store/actions";
+import { fetchJobs, fetchUser } from "./store/actions";
 import { useDispatch } from "react-redux";
 import { AccountConfirmation } from "./pages/AccountConfirmation";
 
@@ -16,6 +16,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchUser());
     dispatch(fetchJobs());
   }, []);
 

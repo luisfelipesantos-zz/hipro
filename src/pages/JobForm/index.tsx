@@ -11,7 +11,8 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { HomeButton } from "../Home/styles";
 import { Input, Loader } from "rsuite";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import api from "../../api";
 
 require("dotenv").config();
 
@@ -32,13 +33,8 @@ export const JobForm: React.FC = () => {
 
     try {
       setLoading(true);
-      await new Promise((res) => {
-        setTimeout(() => {
-          res("");
-        }, 1000);
-      });
 
-      const newJob: AxiosResponse = await axios.post(
+      const newJob: AxiosResponse = await api.post(
         `${process.env.REACT_APP__AXIOS_BASEURL}/jobs`,
         jobFormData
       );

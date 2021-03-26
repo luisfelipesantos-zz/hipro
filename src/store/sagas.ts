@@ -1,7 +1,19 @@
-import { all, put, takeLatest, fork, select } from "redux-saga/effects";
-import { fetchJobsSuccess } from "./actions";
+//@ts-ignore
+import {
+  all,
+  put,
+  takeLatest,
+  fork,
+  select,
+  call,
+  CallEffect,
+} from "redux-saga/effects";
+import { fetchJobsSuccess, fetchUserSuccess, fetchUserError } from "./actions";
 import * as selectors from "./selectors";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import api from "../api";
+import { Auth } from "aws-amplify";
+
 require("dotenv").config();
 
 function* handleLocalStorage() {
@@ -15,7 +27,7 @@ function* handleLocalStorage() {
 }
 
 function* handleFetchJobs() {
-  const res: AxiosResponse = yield axios.get(
+  const res: AxiosResponse = yield api.get(
     `${process.env.REACT_APP__AXIOS_BASEURL}/jobs`
   );
 
@@ -23,6 +35,24 @@ function* handleFetchJobs() {
   localStorage.setItem("jobs", jobs);
 
   yield put(fetchJobsSuccess(jobs));
+}
+
+function* handleFetchUser() {
+  try {
+    const session: any = yield call({
+      context: Auth,
+      fn: "currentSession",
+    });
+
+    yield put(fetchUserSuccess());
+  } catch (error) {
+    yield put(fetchUserError());
+    console.log("Not logged in");
+  }
+}
+
+function* watchFetchUser() {
+  yield takeLatest("USER_FETCH", handleFetchUser);
 }
 
 function* watchFetchJobs() {
@@ -37,5 +67,9 @@ function* watchJobLocalStorage() {
 }
 
 export function* rootSaga() {
-  yield all([fork(watchJobLocalStorage), fork(watchFetchJobs)]);
+  yield all([
+    fork(watchJobLocalStorage),
+    fork(watchFetchJobs),
+    fork(watchFetchUser),
+  ]);
 }
