@@ -14,6 +14,7 @@ const reducer = (
       return {
         ...state,
         jobs: [...state.jobs, action.payload],
+        loading: false,
       };
 
     case "JOBAPPLICATION_FETCH":
@@ -46,6 +47,12 @@ const reducer = (
       return {
         ...state,
         userLoading: false,
+      };
+
+    case "USER_LOG_OUT":
+      return {
+        ...state,
+        userLogged: false,
       };
 
     case "USER_FETCH":

@@ -1,5 +1,5 @@
-import { useParams } from "react-router";
-import { Form, Input, Button, Steps } from "rsuite";
+import { useHistory, useParams } from "react-router";
+import { Form, Input, Button, Steps, Alert } from "rsuite";
 import { HomeButton } from "../Home/styles";
 import { Auth } from "aws-amplify";
 
@@ -14,13 +14,18 @@ export const AccountConfirmation: React.FC = () => {
   const { username } = useParams<ParamTypes>();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   const verifyAccount = async () => {
     setLoading(true);
     try {
       await Auth.confirmSignUp(username, code);
       setLoading(false);
-    } catch (error) {}
+      history.push("/login");
+    } catch (error) {
+      Alert.error("Something went wrong.");
+      console.log(error);
+    }
   };
 
   return (

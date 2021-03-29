@@ -8,8 +8,11 @@ export const fetchJobs = () => action("JOBAPPLICATION_FETCH");
 export const fetchUser = () => action("USER_FETCH");
 
 export const fetchUserSuccess = () => {
-  console.log("Como assim essa merda chegou aqui");
   return action("USER_FETCH_SUCCESS");
+};
+
+export const userLogOut = () => {
+  return action("USER_LOG_OUT");
 };
 
 export const fetchUserError = () => {

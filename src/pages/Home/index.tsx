@@ -3,11 +3,14 @@ import { Redirect, useHistory } from "react-router-dom";
 import { HomeButton } from "./styles";
 import "rsuite/lib/styles/index.less";
 import Auth from "@aws-amplify/auth";
-import { useSelector } from "react-redux";
-import { Loader } from "rsuite";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Loader, Modal } from "rsuite";
+import { userLogOut } from "../../store/actions";
 
 export const Home: React.FC = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -24,11 +27,20 @@ export const Home: React.FC = () => {
     try {
       await Auth.signOut();
       setLoading(false);
+      dispatch(userLogOut());
       history.push("/login");
       console.log("Signed out successfully");
     } catch (error) {
       console.log("Something went wrong in signing out.", error);
     }
+  };
+
+  const openModal = () => {
+    setShow(true);
+  };
+
+  const closeModal = () => {
+    setShow(false);
   };
 
   return (
@@ -66,7 +78,7 @@ export const Home: React.FC = () => {
               position: "absolute",
             }}
           >
-            <HomeButton loading={loading} color="red" onClick={logOut}>
+            <HomeButton loading={loading} color="red" onClick={openModal}>
               Log out
             </HomeButton>
           </div>
@@ -74,7 +86,20 @@ export const Home: React.FC = () => {
       ) : (
         <Redirect to="/login" />
       )}
-      {console.log(isLogged)}
+      {console.log("Is logged in? ", isLogged)}
+      <Modal size="xs" show={show} onHide={closeModal}>
+        <Modal.Body>
+          <p>Are you shure you want log out?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button appearance="primary" onClick={logOut}>
+            Yes
+          </Button>
+          <Button appearance="subtle" onClick={closeModal}>
+            No
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

@@ -39,8 +39,6 @@ export const JobForm: React.FC = () => {
         jobFormData
       );
 
-      console.log(newJob);
-
       dispatch(addJobApplication(newJob.data));
 
       setJobFormData(initialStateValues);

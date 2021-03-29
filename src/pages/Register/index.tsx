@@ -93,7 +93,8 @@ export const Register: React.FC = () => {
         console.log(cognitoUser);
         setLoading(false);
       } catch (error) {
-        console.log("Something went wrong in signing up", error);
+        Alert.error("Something went wrong in signing up");
+        console.log(error);
       }
 
       setUser(userData);

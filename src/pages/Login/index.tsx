@@ -8,9 +8,11 @@ import {
 } from "./styles";
 import { Alert, ControlLabel, Icon, Input } from "rsuite";
 import { AiOutlineUser } from "react-icons/ai";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useState } from "react";
 import Auth from "@aws-amplify/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserSuccess } from "../../store/actions";
 
 const loginData: Login = {
   phone: "",
@@ -19,9 +21,14 @@ const loginData: Login = {
 
 export const Login: React.FC = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [signIn, setSignIn] = useState(loginData);
   const [loading, setLoading] = useState(false);
+
+  const isLogged = useSelector(
+    (state: JobApplicationState) => state.userLogged
+  );
 
   const validateEmptyFields = () => {
     return signIn.phone === "" || signIn.password === "";
@@ -52,6 +59,7 @@ export const Login: React.FC = () => {
         console.log("Successful login", user);
         setSignIn(loginData);
         setLoading(false);
+        dispatch(fetchUserSuccess());
         history.push("/");
       } catch (error) {
         Alert.error(error.message);
@@ -63,50 +71,58 @@ export const Login: React.FC = () => {
 
   return (
     <>
-      <FormLogin onSubmit={submitLogIn}>
-        <HeadLogin>
-          <AiOutlineUser size="50px" color="#777" />
-        </HeadLogin>
+      {isLogged ? (
+        <>
+          <Redirect to="/" />{" "}
+        </>
+      ) : (
+        <>
+          <FormLogin onSubmit={submitLogIn}>
+            <HeadLogin>
+              <AiOutlineUser size="50px" color="#777" />
+            </HeadLogin>
 
-        <FormGroupLogin>
-          <ControlLabel>Phone</ControlLabel>
-          <Input
-            placeholder="(00) 0 0000-0000"
-            value={signIn.phone}
-            onChange={(value) => {
-              setSignIn({
-                ...signIn,
-                phone: value
-                  .slice(0, 15)
-                  .replace(/\D/g, "")
-                  .replace(/(^\d{2})(\d)/, "($1) $2")
-                  .replace(/(\d{4,5})(\d{4}$)/, "$1-$2"),
-              });
-            }}
-          ></Input>
-        </FormGroupLogin>
+            <FormGroupLogin>
+              <ControlLabel>Phone</ControlLabel>
+              <Input
+                placeholder="(00) 0 0000-0000"
+                value={signIn.phone}
+                onChange={(value) => {
+                  setSignIn({
+                    ...signIn,
+                    phone: value
+                      .slice(0, 15)
+                      .replace(/\D/g, "")
+                      .replace(/(^\d{2})(\d)/, "($1) $2")
+                      .replace(/(\d{4,5})(\d{4}$)/, "$1-$2"),
+                  });
+                }}
+              ></Input>
+            </FormGroupLogin>
 
-        <FormGroupLogin>
-          <ControlLabel>Password</ControlLabel>
-          <Input
-            type="password"
-            value={signIn.password}
-            onChange={(value) => {
-              setSignIn({ ...signIn, password: value });
-            }}
-          ></Input>
-        </FormGroupLogin>
+            <FormGroupLogin>
+              <ControlLabel>Password</ControlLabel>
+              <Input
+                type="password"
+                value={signIn.password}
+                onChange={(value) => {
+                  setSignIn({ ...signIn, password: value });
+                }}
+              ></Input>
+            </FormGroupLogin>
 
-        <ButtonLogin loading={loading} type="submit" color="blue">
-          Login
-        </ButtonLogin>
-      </FormLogin>
-      <Forgot>
-        <a href="#">Forgot password?</a>
-      </Forgot>
-      <Register>
-        Don't have an account? <Link to="/register">Register!</Link>
-      </Register>
+            <ButtonLogin loading={loading} type="submit" color="blue">
+              Login
+            </ButtonLogin>
+          </FormLogin>
+          <Forgot>
+            <a href="#">Forgot password?</a>
+          </Forgot>
+          <Register>
+            Don't have an account? <Link to="/register">Register!</Link>
+          </Register>
+        </>
+      )}
     </>
   );
 };

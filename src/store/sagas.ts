@@ -39,7 +39,7 @@ function* handleFetchJobs() {
 
 function* handleFetchUser() {
   try {
-    const session: any = yield call({
+    yield call({
       context: Auth,
       fn: "currentSession",
     });
