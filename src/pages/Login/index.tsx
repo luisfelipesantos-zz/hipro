@@ -12,7 +12,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import { useState } from "react";
 import Auth from "@aws-amplify/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserSuccess } from "../../store/actions";
+import { fetchUser, fetchUserSuccess } from "../../store/actions";
 
 const loginData: Login = {
   phone: "",
@@ -56,10 +56,13 @@ export const Login: React.FC = () => {
           "+55".concat(signIn.phone.replace(/[^A-Z0-9]/gi, "")),
           signIn.password
         );
-        console.log("Successful login", user);
+
+        console.log(user.attributes);
+
         setSignIn(loginData);
         setLoading(false);
-        dispatch(fetchUserSuccess());
+        dispatch(fetchUser());
+
         history.push("/");
       } catch (error) {
         Alert.error(error.message);

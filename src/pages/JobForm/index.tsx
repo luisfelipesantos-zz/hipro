@@ -13,13 +13,17 @@ import { HomeButton } from "../Home/styles";
 import { Input, Loader } from "rsuite";
 import { AxiosResponse } from "axios";
 import api from "../../api";
+import Auth from "@aws-amplify/auth";
 
 require("dotenv").config();
+
+console.log(Auth.currentUserCredentials());
 
 const initialStateValues: JobApplication = {
   company: "",
   role: "",
   status: "Applied",
+  userId: "",
 };
 
 export const JobForm: React.FC = () => {
@@ -34,9 +38,17 @@ export const JobForm: React.FC = () => {
     try {
       setLoading(true);
 
+      const user = await Auth.currentUserInfo();
+
+      const idUser = user.attributes.sub;
+
+      setJobFormData({ ...jobFormData, userId: idUser });
+
+      console.log(jobFormData);
+
       const newJob: AxiosResponse = await api.post(
         `${process.env.REACT_APP__AXIOS_BASEURL}/jobs`,
-        jobFormData
+        { ...jobFormData, userId: idUser }
       );
 
       dispatch(addJobApplication(newJob.data));

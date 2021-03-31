@@ -1,20 +1,20 @@
 //@ts-ignore
-import {
-  all,
-  put,
-  takeLatest,
-  fork,
-  select,
-  call,
-  CallEffect,
-} from "redux-saga/effects";
+import { all, put, takeLatest, fork, select, call } from "redux-saga/effects";
 import { fetchJobsSuccess, fetchUserSuccess, fetchUserError } from "./actions";
 import * as selectors from "./selectors";
-import { AxiosResponse } from "axios";
 import api from "../api";
 import { Auth } from "aws-amplify";
 
 require("dotenv").config();
+
+interface User {
+  subid: string;
+  phone: string;
+  name: string;
+  email: string;
+  gender: string;
+  birthDate: string;
+}
 
 function* handleLocalStorage() {
   const jobs: JobApplicationState = yield select(selectors.jobState);
@@ -27,8 +27,13 @@ function* handleLocalStorage() {
 }
 
 function* handleFetchJobs() {
-  const res: AxiosResponse = yield api.get(
-    `${process.env.REACT_APP__AXIOS_BASEURL}/jobs`
+  const url = `${process.env.REACT_APP__AXIOS_BASEURL}/jobs`;
+  const res: any = yield call(
+    {
+      context: api,
+      fn: "get",
+    },
+    url
   );
 
   const jobs = res.data;
@@ -38,11 +43,32 @@ function* handleFetchJobs() {
 }
 
 function* handleFetchUser() {
+  const url = `${process.env.REACT_APP__AXIOS_BASEURL}/users/userSync`;
   try {
-    yield call({
+    const user = yield call({
       context: Auth,
-      fn: "currentSession",
+      fn: "currentUserInfo",
     });
+
+    const {
+      sub,
+      phone_number,
+      name,
+      email,
+      gender,
+      birthdate,
+    } = user.attributes;
+
+    const userSync: User = {
+      subid: sub,
+      phone: phone_number,
+      name: name,
+      email: email,
+      gender: gender,
+      birthDate: birthdate,
+    };
+
+    yield api.get(url, userSync);
 
     yield put(fetchUserSuccess());
   } catch (error) {
